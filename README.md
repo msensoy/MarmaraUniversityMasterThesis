@@ -1,6 +1,6 @@
 # AKILLI BİNALARDA WEB TEKNOLOJİLERİNİN KULLANIMI
 
- ![MULogo](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/MULogo.PNG) </br>
+ ![MULogo](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/MULogo1.PNG) </br>
  
 Marmara Üniversitesi Yüksek Lisans Tezi kapsamında Web of Things (WoT) mimarisinde .NET Core ile geliştirilen uygulamalar hakkında bilgileri içermektedir.
 
