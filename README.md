@@ -1,10 +1,10 @@
 # AKILLI BİNALARDA WEB TEKNOLOJİLERİNİN KULLANIMI
 
- ![MULogo](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/MULogo.png) </br>
+ ![MULogo](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/MULogo.PNG) </br>
  
 Marmara Üniversitesi Yüksek Lisans Tezi kapsamında Web of Things (WoT) mimarisinde .NET Core ile geliştirilen uygulamalar hakkında bilgileri içermektedir.
 
- ![WebSite](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/WebSite.png) </br>
+ ![WebSite](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/WebSite.PNG) </br>
  
 Tüm yazılımlar Rasbian işletim sistemi yüklü bir Raspberry Pi 4 cihazında çalışmaktadır. Kullanılan yazılım ve donanım gereksinimleri aşağıda belirtilmiştir.
 ## Proje Gereksinimleri
@@ -34,23 +34,23 @@ Tüm yazılımlar Rasbian işletim sistemi yüklü bir Raspberry Pi 4 cihazında
 
 Proje prototipi aşağıda gösterilmiştir.
 
- ![Prototype](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/Prototype.png) </br>
+ ![Prototype](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/Prototype.PNG) </br>
 
 ## Uygulama
 
 Raspberry Pi kartına gerekli kütüphane yüklemeleri ve donanım bağlantıları yapıldıktan sonra .NET Core yazılımları artık çalıştırılabilir. Öncelikle kök dizin içerisine "Marmara" adında klasör açılır. Daha sonra klasör içerisine aşağıda gösterildiği gibi alt klasörler açılır. Bu alt klasörlerin her biri farklı bir amaç için oluşturulmuştur.
- ![Folders](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/Folders.png) </br>
+ ![Folders](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/Folders.PNG) </br>
  
 ### API
 `cd Marmara/API/` komutu ile klasörün içerisine giriniz. Daha sonra `./Marmara.API` komutunu terminalde çalıştırdığınızda aşağıdaki gibi görüntü elde edeceksiniz.
 
- ![API](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/RunAPI.png) </br>
+ ![API](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/RunAPI.PNG) </br>
 
 
 ### Worker Service
 `cd Marmara/WorkerService/` komutu ile klasörün içerisine giriniz. Daha sonra `./Marmara.WorkerService` komutunu terminalde çalıştırdığınızda aşağıdaki gibi görüntü elde edeceksiniz.
 
- ![WorkerService](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/RunWS.png) </br>
+ ![WorkerService](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/RunWS.PNG) </br>
 
 ### MVC
 
