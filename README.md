@@ -1,10 +1,10 @@
 # AKILLI BİNALARDA WEB TEKNOLOJİLERİNİN KULLANIMI
 
- ![MULogo](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/MULogo1.PNG) </br>
+ ![MULogo](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/main/images/MULogo1.PNG) </br>
  
 Marmara Üniversitesi Yüksek Lisans Tezi kapsamında Web of Things (WoT) mimarisinde .NET Core ile geliştirilen uygulamalar hakkında bilgileri içermektedir.
 
- ![WebSite](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/master/images/WebSite.PNG) </br>
+ ![WebSite](https://github.com/msensoy/MarmaraUniversityMasterThesis/blob/main/images/WebSite.PNG) </br>
  
 Tüm yazılımlar Rasbian işletim sistemi yüklü bir Raspberry Pi 4 cihazında çalışmaktadır. Kullanılan yazılım ve donanım gereksinimleri aşağıda belirtilmiştir.
 ## Proje Gereksinimleri
