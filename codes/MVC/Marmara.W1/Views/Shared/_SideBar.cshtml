@@ -1,0 +1,72 @@
+﻿<!-- partial:partials/_sidebar.html -->
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="/">
+                <i class="ti-panel menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/lighting/index">
+                <i class="ti-light-bulb menu-icon"></i>
+                <span class="menu-title">Lighting</span>
+            </a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/safety/index">
+                <i class="ti-shield menu-icon"></i>
+                <span class="menu-title">Safety</span>
+            </a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/hvac/index">
+                <i class="ti-shine menu-icon"></i>
+                <span class="menu-title">HVAC</span>
+            </a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/schedule/index">
+                <i class="ti-time menu-icon"></i>
+                <span class="menu-title">Schedule Task</span>
+            </a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/rule/index">
+                <i class="ti-check-box menu-icon"></i>
+                <span class="menu-title">Rule</span>
+            </a>
+        </li>
+        @if (ViewData["userRole"]?.ToString() == Const.admin)
+        {
+            <li class="nav-item active">
+                <a class="nav-link" href="/user/index">
+                    <i class="ti-user menu-icon"></i>
+                    <span class="menu-title">Users</span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/swagger/index">
+                    <i class="ti-notepad menu-icon"></i>
+                    <span class="menu-title">Swagger</span>
+                </a>
+            </li>
+        }
+
+        @*<li class="nav-item active">
+            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                <i class="ti-palette menu-icon"></i>
+                <span class="menu-title">Royal</span>
+                <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="ui-basic">
+                <ul class="nav flex-column sub-menu">
+                    <li class="nav-item"> <a class="nav-link" href="~/royal/index.html">Royal Template</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="~/royal/pages/ui-features/buttons.html">Buttons</a></li>
+                    <li class="nav-item"> <a class="nav-link" href="~/royal/pages/ui-features/typography.html">Typography</a></li>
+                </ul>
+            </div>
+        </li>*@
+    </ul>
+</nav>
+<!-- partial -->

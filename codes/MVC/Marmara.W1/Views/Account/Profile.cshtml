@@ -1,0 +1,59 @@
+﻿@model Marmara.Common.Model.SettingPasswordModel
+
+<div>
+    <div asp-validation-summary="All" class="text-danger"></div>
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+    <div class="alert alert-info">@ViewBag.Message</div>
+
+    }
+    @if (!string.IsNullOrEmpty(ViewBag.NewPassword))
+    {
+    <button class="btn btn-success mb-2" onclick="showNewPassword()">Show New Password</button>
+    <div id="divNewPassword" class="alert alert-success" style="display:none; margin-top:10px;">New Password: @ViewBag.NewPassword</div>
+    }
+
+    <form asp-action="Profile" asp-controller="Account" method="post">
+        <div>
+
+            <input type="hidden" asp-for="AppUserGuid" />
+            <div class="form-group row">
+                <label for="Password" class="col-sm-2 col-form-label" style="font-size:large;">Password:</label>
+                <div class="col-sm-3">
+                    <input type="password" class="form-control" asp-for="Password" placeholder="Enter Current Password">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Password" class="col-sm-2 col-form-label" style="font-size:large;">New Password:</label>
+                <div class="col-sm-3">
+                    <input type="password" class="form-control" asp-for="NewPassword" placeholder="Enter New Password">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="Password" class="col-sm-2 col-form-label" style="font-size:large;">New Password Verification:</label>
+                <div class="col-sm-3">
+                    <input type="password" class="form-control" asp-for="ConfirmPassword" placeholder="Re-enter New Password">
+                </div>
+            </div>
+            <div class="form-group" style="text-align:right;">
+                <div class="col-sm-5">
+                    <button type="submit" class="btn btn-primary ml-4">Update</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    var clickCount = 0;
+    function showNewPassword() {
+        var clickMode = clickCount %= 2
+        if (clickMode == 0) {
+            document.getElementById('divNewPassword').style.display = "block";
+        }
+        else {
+            document.getElementById('divNewPassword').style.display = "none";
+        }
+        clickCount++;
+    }
+</script>

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = null;
+}
+
+
+@{
+    List<ChartJSCore.Models.Chart> charts = (List<ChartJSCore.Models.Chart>)ViewData["ChartMQ2"];
+    <canvas id="chartMQ2" class="chartjs-render-monitor sensorChart"></canvas>
+}
+
+
+<script>
+            @{
+                for (int i = 0; i < charts.Count; i++)
+                {
+                    @Html.Raw(charts[i].CreateChartCode(("chartMQ2")));
+                }
+            }
+</script>
+
+
+

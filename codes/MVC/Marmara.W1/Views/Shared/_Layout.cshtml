@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Web</title>
+    @*<title>MarmaraUI Admin</title>*@
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*<link rel="stylesheet" href="~/css/site.css" />*@
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <link rel="stylesheet" href="~/royal/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="~/royal/vendors/base/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/royal/css/style.css">
+    <link rel="stylesheet" href="~/css/bootstrap-toggle.min.css" />
+    <link href="~/css/SensorChart.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/royal/images/favicon.png" />
+</head>
+<body>
+    <div class="container-scroller">
+        @await Html.PartialAsync("_Header")
+        <div class="container-fluid page-body-wrapper">
+            @await Html.PartialAsync("_SideBar")
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @RenderBody()
+                </div>
+                @await Html.PartialAsync("_Footer")
+            </div>
+
+        </div>
+
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+    <script src="~/royal/vendors/base/vendor.bundle.base.js"></script>
+    <script src="~/royal/vendors/chart.js/Chart.min.js"></script>
+    <script src="~/royal/js/off-canvas.js"></script>
+    <script src="~/royal/js/hoverable-collapse.js"></script>
+    <script src="~/royal/js/template.js"></script>
+    <script src="~/royal/js/todolist.js"></script>
+    <script src="~/royal/js/dashboard.js"></script>
+    <script src="~/js/bootstrap-toggle.min.js"></script>
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,55 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+
+<div class="modal fade" id="divModalTask" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true" style="margin-top:100px;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div style="text-align:center;">
+                    <h3 class="modal-title" id="modalLabel">New Task</h3>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formCreateTask">
+                    <div class="form-group row">
+                        <label for="Terapist" class="col-sm-3 col-form-label">Name :</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="ObjectName" name="ObjectName" asp-items="Html.GetEnumSelectList<Marmara.Common.ObjectNameEnum>()" style="color:black">
+                                <option selected="selected" value="">Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="Terapist" class="col-sm-3 col-form-label">Command :</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="ObjectStatus" name="ObjectStatus" asp-items="Html.GetEnumSelectList<Marmara.Common.ObjectStatusEnum>()" style="color:black">
+                                <option selected="selected" value="">Choose</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="ScheduledTime" class="col-sm-3 col-form-label">Time :</label>
+                        <div class="col-sm-4">
+                            <input type="time" id="ScheduleTime" name="ScheduleTime" class="form-control">
+            
+                        </div>   
+                        <div class="col-sm-5">
+                            <input type="date" id="ScheduleDate" name="ScheduleDate" class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="button" name="btnSubmit" value="Complete" id="btnSubmit" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</div>

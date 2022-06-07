@@ -1,0 +1,37 @@
+﻿@{
+    ViewData["Title"] = "-";
+    Layout = null;
+}
+<title>Account</title>
+@model Marmara.Common.Model.LoginModel
+    <link href="~/css/login.css" rel="stylesheet" />
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Tabs Titles -->
+        <!-- Icon -->
+  
+        <div class="d-flex justify-content-center mb-1">
+            <img src="/img/L13.png" id="imgLed" width="160" height="160" class="imgLedBulb">
+        </div>
+
+        <!-- Login Form -->
+
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <div asp-validation-summary="All" class="text-danger mt-2" style="text-align:center;"></div>
+            <input type="text" id="login" class="fadeIn second" name="Username" placeholder="login">
+            <input type="password" id="password" class="fadeIn third" name="Password" placeholder="password">
+            <input type="submit" class="fadeIn fourth" value="Log In">
+        </form>
+
+        <!-- Remind Passowrd -->
+        <div id="formFooter">
+          @*  <a class="underlineHover" href="#">Forgot Password?</a>*@
+        </div>
+
+    </div>
+</div>

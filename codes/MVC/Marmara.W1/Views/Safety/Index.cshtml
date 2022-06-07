@@ -1,0 +1,178 @@
+﻿@{
+    ViewData["Title"] = "Safety";
+}
+@model List<Marmara.Common.ThingClass.Thing>
+
+    <style>
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
+
+<div class="row d-flex justify-content-between">
+
+    @*ALARM*@
+    <div class="col-sm-6 col-md-2 col-lg-2 m-2 p-2" style="background-color: rgba(255, 255, 255, 0.60)">
+        <div class="d-flex justify-content-center">
+            <img src="/img/L4a0.png" id="imgAlarm" width="160" height="160">
+        </div>
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label> ALARM </label>
+        </div>
+        <div class="d-flex justify-content-center mt-4"><label><button class="btn btn-primary" id="bntAlarm" style="width: 80px;" @((ViewData["userRole"]?.ToString() == Const.admin) ? "" : "disabled") >ON</button></label></div>
+        <audio id="audio"><source src="~/media/alarm2.wav" /></audio>
+
+    </div>
+
+    @*MQ2*@
+    <div class="col-sm-6 col-md-2 col-lg-2 m-2 p-2" style="background-color: rgba(255, 255, 255, 0.60)">
+        <div class="d-flex justify-content-center">
+            <img src="/img/L9.png" id="imgMQ2" width="160" height="160">
+        </div>
+
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label> GAS SENSOR </label>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label>CO : </label>
+            <label id="co"></label>
+        </div>
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label>LPG : </label>
+            <label id="lpg"></label>
+        </div>
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label>SMOKE : </label>
+            <label id="smoke"></label>
+        </div>
+    </div>
+
+    <div class="text-center mt-5 col-sm-6 col-md-8 col-lg-7 m-2 p-2" style="overflow-x: auto;">
+        <table class="table table-bordered  table-striped table-advance table-hover" style="background-color:rgba(255, 255, 255, 0.5);">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+            @foreach (var thing in Model)
+            {
+                @if (thing.Title != "MQ2 Sensor" && thing.Title != "Alarm")
+                {
+                    <tr>
+                        <td>@thing.Title</td>
+                        <td>@thing.Description</td>
+
+                        <td id="ButtonDiv">
+                            <div style="background-color:gray; height:50px; width:100px;" id="@(thing.Title.Trim().Replace(" ",""))"></div>
+                        </td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+
+</div>
+
+
+
+
+
+@section Scripts {
+
+    <script src="~/js/Chart.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(() => {
+            var status;
+            var changeAlarm01;
+            var changeAlarm02;
+            var changeAlarmVoice;
+               // bntAlarm Click
+             $('#bntAlarm').click(function () {
+                status = {
+                    "data": true,
+                };
+                var bntText = $('#bntAlarm').text();
+                if (bntText === "OFF") {
+                    $('#bntAlarm').text("ON");
+                    status = {
+                        "data": false,
+                    };
+
+                    var image = document.getElementById('imgAlarm');
+                    image.src = "/img/L4a0.png";
+                    clearInterval(changeAlarm01);
+                    clearInterval(changeAlarm02);
+                    clearInterval(changeAlarmVoice);
+                    var audio = document.getElementById("audio");
+                    audio.pause();
+                }
+                else {
+                    $('#bntAlarm').text("OFF");
+                    status = {
+                        "data": true,
+                    };
+
+                    //önce açık varsa kapa sonra tekrar aç signalR ile karışıyor
+                    clearInterval(changeAlarm01);
+                    clearInterval(changeAlarm02);
+                    clearInterval(changeAlarmVoice);
+
+                    changeAlarm01 = setInterval(changeAlarm01Func, 500);
+                    changeAlarm02 = setInterval(changeAlarm02Func, 1000);
+                    changeAlarmVoice = setInterval(changeAlarmVoiceFunc, 1000);
+
+                }
+
+                var statusJson = JSON.stringify(status);
+                var urlAlarm = '@Const.GetUrl("things/alarm/actions/onoff")'; //"https://192.168.43.36:5001/things/alarm/actions/onoff"
+            
+                $.ajax({
+                    type: "POST",
+                    url: urlAlarm,
+                    headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "authorization": `Bearer @ViewData["tokenLogin"]`
+                    },
+                    data: statusJson,
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            var changeAlarm01Func = function () {
+                var image = document.getElementById('imgAlarm');
+                image.src = "/img/L4a1.png";
+            };
+            var changeAlarm02Func = function () {
+                var image = document.getElementById('imgAlarm');
+                image.src = "/img/L4a2.png";
+            };
+
+            var changeAlarmVoiceFunc = function () {
+                var audio = document.getElementById("audio");
+                audio.play();
+            };
+
+
+        });
+    </script>
+
+    <script src="~/js/SignalRFlame.js"></script>
+    <script src="~/js/SignalRMQ2.js"></script>
+    <script src="~/js/SignalRPIR.js"></script>
+    <script src="~/js/SignalRSound.js"></script>
+    <script src="~/js/SignalRAlarm.js"></script>
+
+}

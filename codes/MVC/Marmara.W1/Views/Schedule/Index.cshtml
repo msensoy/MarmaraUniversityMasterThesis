@@ -1,0 +1,159 @@
+﻿@{
+    ViewData["Title"] = "Schedule";
+    var apiBaseUrl = Const.API_URL;
+}
+
+@model List<SchTaskModel>
+@await Html.PartialAsync("ModalCreateTask")
+@using Marmara.Common
+
+<style>
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        border: 1px solid #ddd;
+    }
+
+    th, td {
+        text-align: left;
+        padding: 8px;
+    }
+</style>
+
+<h1>Task List</h1>
+
+<div class="d-flex flex-row-reverse mb-2">
+    <button type="button" id="btnModalForTask" class="btn btn-info" @((ViewData["userRole"]?.ToString() == Const.admin) ? "" : "disabled")><i class="fa fa-plus-square"></i>  New  </button>
+</div>
+<div class="text-center mt-5" style="overflow-x: auto;">
+    <table class="table table-bordered  table-striped table-advance table-hover" style="background-color:rgba(255, 255, 255, 0.5);">
+        <tr>
+            <th>Object Name</th>
+            <th>Object Status</th>
+            <th>Schedule Time</th>
+            <th>Task Status</th>
+            @if (ViewData["userRole"]?.ToString() == Const.admin)
+            {
+                <th>Remove</th>
+            }
+        </tr>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>@task.ObjectName</td>
+                <td>@task.ObjectStatus</td>
+                <td>@task.ScheduleTime</td>
+
+                <td style="@(task.TaskStatus == TaskStatusEnum.Worked ? "Background-color:#669999" : "Background-color:#00ccff")">@task.TaskStatus</td>
+                @if (ViewData["userRole"]?.ToString() == Const.admin)
+                {
+                    <td id="ButtonDiv">
+                        <a id="@task.Id" class="btnDel"><i class="ti-archive"></i></a>
+                    </td>
+                }
+
+
+            </tr>
+        }
+    </table>
+</div>
+
+    @section Scripts
+{
+        <script>
+        $(document).ready(function () {
+
+            $('#btnModalForTask').click(function () {
+                $("#divModalTask").modal("show");
+            });
+
+            $("#btnSubmit").click(function () {
+                var postUrl = '@Const.GetUrl("api/schedule/create")';
+                console.log(postUrl);  // "https://192.168.43.36:5001/api/schedule/create"
+                var objectName = parseInt($("#ObjectName").val());
+                var objectStatus = parseInt($("#ObjectStatus").val());
+                var schTime = $("#ScheduleTime").val();
+                var schDate = $("#ScheduleDate").val();
+
+                if (objectName == '' || objectStatus == '' || schTime == '' || schDate == '') {
+                    alert("Please fill in all fields.");
+                    return;
+                }
+
+
+                var scheduleTime = new Date(schTime + ' ' + schDate);
+
+
+                var postData = {
+                    "objectName": objectName,
+                    "objectStatus": objectStatus,
+                    "scheduleTime": scheduleTime
+                };
+                var jsonText = JSON.stringify(postData);
+                console.log(jsonText);
+
+                $.ajax({
+                    type: "POST",
+                    url: postUrl,
+                    headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "authorization": `Bearer @ViewData["tokenLogin"]`
+                    },
+                    contentType: "application/json; charset=utf-8",
+                    data: jsonText,
+                    dataType: "json",
+                    success: function (data) {
+
+                        alert("Success");
+                        if (data == 1) {
+                            $("#divModalTask").modal("hide");
+                            location.reload();
+                        }
+                        else {
+                            alert("Error");
+                            if ($("#ObjectName").val() == "") {
+                                $("#ObjectName").focus();
+                            }
+                            else if ($("#ObjectStatus").val() == "") {
+                                $("#ObjectStatus").focus();
+                            }
+                            else {
+                                $("#ObjectName").focus();
+                            }
+                        }
+                    }
+
+                });
+            });
+
+            $(document).on('click', '#ButtonDiv .btnDel', function () {
+
+                var btnId = this.id;
+                var getUrl = '@apiBaseUrl' + `api/schedule/remove/${btnId}`;
+                console.log(getUrl);  // "`https://192.168.43.36:5001/api/schedule/remove/${btnId}`"
+
+                var result = confirm("Are you sure ?");
+                if (result == true) {
+                    $.ajax({
+                        type: "GET",
+                        url: getUrl,
+                        headers: {
+                        "accept": "application/json",
+                        "content-type": "application/json",
+                        "authorization": `Bearer @ViewData["tokenLogin"]`
+                        },
+                        success: function (data) {
+                            if (data == 1) {
+                                $(`#${btnId}`).parent().parent().remove();
+                                location.reload();
+                            }
+                        }
+                    });
+                }
+            });
+
+        })
+        </script>
+    }

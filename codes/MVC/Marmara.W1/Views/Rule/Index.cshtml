@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewData["Title"] = "Rule";
+}
+@model RuleTaskModel
+
+<form asp-action="Save" asp-controller="Rule" method="post">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12" style="overflow-x: auto;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">Is Active</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Selected</th>
+                            <th scope="col">Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="checkTemp" name="checkTemp" asp-for="checkTemp" value="true">
+                                    <label class="custom-control-label" for="checkTemp"></label>
+                                </div>
+                            </td>
+                            <td>Temperature Value</td>
+                            <td>
+                                <div class="custom-control custom-radio">
+                                    <input class="form-check-input" type="radio" id="radioTemp" checked name="radioTemp" asp-for="radioTempGreaterThen" value="false">
+                                    <label class="form-check-label" style="font-size:xx-large" for="radioTemp">
+                                        &nbsp; <=
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <input class="form-control" style="width:100px;" type="text" name="valueTemp" value="@(Model.valueTemp)"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="checkLux" name="checkLux" asp-for="checkLux" value="true">
+                                    <label class="custom-control-label" for="checkLux"></label>
+                                </div>
+                            </td>
+                            <td>Lux Value</td>
+                            <td>
+                                <div class="custom-control custom-radio">
+                                    <input class="form-check-input" type="radio" id="radioLuxLess" checked name="radioLuxGreaterThen" asp-for="radioLuxGreaterThen" value="true">
+                                    <label class="form-check-label" style="font-size:xx-large" for="radioLuxLess">
+                                        &nbsp; <=
+                                    </label>
+                                </div>
+                                <div class="custom-control custom-radio">
+                                    <input class="form-check-input" type="radio" id="radioLuxGreater" name="radioLuxGreaterThen" asp-for="radioLuxGreaterThen" value="false">
+                                    <label class="form-check-label" style="font-size:xx-large" for="radioLuxGreater">
+                                        &nbsp; >=
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <input class="form-control" style="width:100px;" type="text" name="valueLux" value="@(Model.valueLux)" />
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        <button class="btn btn-primary" type="submit">Save</button>
+    </div>
+</form>
+

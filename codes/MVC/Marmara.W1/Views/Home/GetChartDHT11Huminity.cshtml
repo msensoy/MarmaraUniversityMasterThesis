@@ -1,0 +1,19 @@
+﻿@{
+    Layout = null;
+}
+
+
+
+@{
+    List<ChartJSCore.Models.Chart> charts = (List<ChartJSCore.Models.Chart>)ViewData["ChartDht11Huminity"];
+    <canvas id="chartHuminity" class="chartjs-render-monitor sensorChart"> </canvas>
+}
+
+<script>
+            @{
+                for (int i = 0; i < charts.Count; i++)
+                {
+                    @Html.Raw(charts[i].CreateChartCode(("chartHuminity")));
+                }
+            }
+</script>

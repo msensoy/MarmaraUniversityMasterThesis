@@ -1,0 +1,182 @@
+﻿@{
+    ViewData["Title"] = "Lighting";
+}
+@model List<Marmara.Common.ThingClass.Thing>
+<style>
+    .imgLedBulb {
+        z-index: 1;
+    }
+
+    .imgLedLight {
+        position: absolute;
+        z-index: 2;
+    }
+</style>
+
+
+
+<div class="row">
+
+
+    @*CFL*@
+    <div class="col-sm-6 col-md-2 col-lg-2 m-2 p-2" style="background-color: rgba(255, 255, 255, 0.60);">
+        <div class="d-flex justify-content-center">
+            <img src="/img/L2.png" id="imgCfl" width="160" height="160">
+        </div>
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label> CFL Lighting </label>
+        </div>
+        <div class="d-flex justify-content-center mt-4"><label><button class="btn btn-primary" id="bntCfl" style="width: 80px;" @((ViewData["userRole"]?.ToString() == Const.admin) ? "" : "disabled")>ON</button></label></div>
+    </div>
+
+    @*LED*@
+    <div class="col-sm-6 col-md-2 col-lg-2 m-2 p-2" style="background-color: rgba(255, 255, 255, 0.60)">
+        <div class="d-flex justify-content-center">
+            <img src="/img/L1b.png" id="imgLed" width="160" height="160" class="imgLedBulb">
+            <img src="/img/L1a3.png" id="imgLedLight" width="160" height="160" class="imgLedLight">
+        </div>
+        <div>
+            <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+                <label> Dimmable LED Lighting </label>
+            </div>
+            <div id="range-sliders" class="range-sliders">
+                <div class="range-slider-group range-slider-group-blue  d-flex justify-content-center">
+                    <input type="range" min="0" max="100" value="50" data-color="#00f" class="range-slider range-slider-blue mr-2 ledRange" id="range-slider-blue" style="width:70%" @((ViewData["userRole"]?.ToString() == Const.admin) ? "" : "disabled") />
+                    <input type="number" min="0" max="100" value="50" class="input-slider input-slider-blue form-control ledRange" id="input-slider-blue" style="width:40%" @((ViewData["userRole"]?.ToString() == Const.admin) ? "" : "disabled") />
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-primary" id="bntLed" style="width: 80px;" @((ViewData["userRole"]?.ToString() == Const.admin) ? "" : "disabled")>SET</button>
+            </div>
+        </div>
+    </div>
+
+    @*LDR*@
+    <div class="col-sm-6 col-md-2 col-lg-2 m-2 p-2" style="background-color: rgba(255, 255, 255, 0.60);">
+        <div class="d-flex justify-content-center">
+            <img src="/img/L8.png" id="imgLdr" width="160" height="160">
+        </div>
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label> LDR SENSOR </label>
+        </div>
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label>Lux : </label>
+            <label id="ldr"></label>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+
+    <script src="~/js/Chart.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(() => {
+
+            const rangeInput = document.querySelector('.ledRange');
+
+            rangeInput.addEventListener('change', (event) => {
+                var rangeValue = rangeInput.value;
+                var image = document.getElementById('imgLedLight');
+                image.style.filter = "brightness(" + rangeValue + "%)";
+            });
+
+
+
+            console.log(`Bearer @ViewData["tokenLogin"]`);
+
+
+
+            // bntCfl Click
+            var status;
+            $('#bntCfl').click(function () {
+
+                status = {
+                    "data": true,
+                };
+                var bntText = $('#bntCfl').text();
+                var image = document.getElementById('imgCfl');
+                if (bntText === "OFF") {
+                    $('#bntCfl').text("ON");
+                    image.src = "/img/L2.png";
+                    status = {
+                        "data": false,
+                    };
+                }
+                else {
+                    $('#bntCfl').text("OFF");
+                    image.src = "/img/L2a.png";
+                    status = {
+                        "data": true,
+                    };
+                }
+
+                var urlCFL = '@Const.GetUrl("things/cfl/actions/onoff")'; //"https://192.168.43.36:5001/things/cfl/actions/onoff"
+                console.log(`Value will sent for CFL : ${status.data}`);
+
+                var statusJson = JSON.stringify(status);
+
+                $.ajax({
+                    type: "POST",
+                    url: urlCFL,
+                    headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "authorization": `Bearer @ViewData["tokenLogin"]`
+                    },
+                    data: statusJson,
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+
+            });
+
+
+            // bntLed Click
+            $('#bntLed').click(function () {
+
+                var ledValue = $("#input-slider-blue").val()
+
+                console.log(ledValue);
+                status = {
+                    "data": ledValue,
+                };
+
+
+                var urlLedSet = '@Const.GetUrl("things/LED/actions/set")'; //"https://192.168.43.36:5001/things/LED/actions/set"
+                console.log(`Value will sent for LED : ${status.data}`);
+
+                var statusJson = JSON.stringify(status);
+
+                   $.ajax({
+                    type: "POST",
+                    url: urlLedSet,
+                    headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "authorization": `Bearer @ViewData["tokenLogin"]`
+                    },
+                    data: statusJson,
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+
+            });
+
+
+
+        });
+
+    </script>
+    <script src="~/js/range.js"></script>
+    <script src="~/js/SignalRMQ2.js"></script>
+    <script src="~/js/SignalRLED.js"></script>
+    <script src="~/js/SignalRCFL.js"></script>
+    <script src="~/js/SignalRLDR.js"></script>
+    <script src="~/js/SignalRAlarm.js"></script>
+    <script src="~/js/SignalRFan.js"></script>
+    <script src="~/js/SignalRDHT11.js"></script>
+}

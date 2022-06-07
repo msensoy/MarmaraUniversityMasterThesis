@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Marmara.Common\Marmara.Common.csproj" />
+    <ProjectReference Include="..\Marmara.Data\Marmara.Data.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(ProjectDir)xCopyTestFolder&quot; &quot;$(SolutionDir)Marmara.API\xCopyTestFolder\&quot; /Y /I&#xD;&#xA;" />
+  </Target>
+
+</Project>

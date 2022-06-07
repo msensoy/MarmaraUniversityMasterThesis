@@ -1,0 +1,141 @@
+﻿@{
+    ViewData["Title"] = "HVAC";
+}
+@model List<Marmara.Common.ThingClass.Thing>
+
+
+
+<div class="row">
+
+
+    @*FAN*@
+    <div class="col-sm-6 col-md-2 col-lg-2 m-2 p-2" style="background-color: rgba(255, 255, 255, 0.60)">
+        <div class="d-flex justify-content-center">
+            <img src="/img/L3.png" id="imgFan" width="160" height="160">
+        </div>
+        <div class="d-flex justify-content-center mt-3">
+            <h5 style=" color: #787878; font-weight: 500; text-transform: uppercase; font-size: 0.875rem;">
+                HVAC - FAN
+            </h5>
+        </div>
+        <div class="d-flex justify-content-center mt-4"><label><button class="btn btn-primary" id="bntFan" style="width: 80px;" @((ViewData["userRole"]?.ToString() == Const.admin) ? "" : "disabled") >ON</button></label></div>
+    </div>
+
+    @*MQ135*@
+<div class="col-sm-6 col-md-2 col-lg-2 m-2 p-2" style="background-color: rgba(255, 255, 255, 0.60);">
+    <div class="d-flex justify-content-center">
+        <img src="/img/L10.png" id="imgMQ135" width="160" height="160">
+    </div>
+    <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+        <label> CO2 GAS SENSOR </label>
+    </div>
+    <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+        <label>CO2 : </label>
+        <label id="co2"></label>
+    </div>
+</div>
+
+
+    @*DHT11*@
+    <div class="col-sm-6 col-md-2 col-lg-2 m-2 p-2" style="background-color: rgba(255, 255, 255, 0.60)">
+        <div class="d-flex justify-content-center">
+            <img src="/img/L11.png" id="imgDHT11" width="160" height="160">
+        </div>
+
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label> DHT11 Sensor </label>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label>Temperature : </label>
+            <label id="temperature"></label>
+            <label> °C</label>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3" style="font-weight: bold; text-transform: uppercase; ">
+            <label>Humidity : </label>
+            <label id="humidity"></label>
+            <label> %</label>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+@section Scripts {
+
+    <script src="~/js/Chart.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(() => {
+
+             // bntFan Click
+            var status;
+            var degrees = 0;
+            var setRotateFan;
+
+            $('#bntFan').click(function () {
+
+                var bntText = $('#bntFan').text();
+                if (bntText === "OFF") {
+                    $('#bntFan').text("ON");
+                    clearInterval(setRotateFan);
+                    status = {
+                        "data": false,
+                    };
+                }
+                else {
+                    $('#bntFan').text("OFF");
+                    clearInterval(setRotateFan);
+
+                    setRotateFan = setInterval(rotateFanFunc, 100);
+                    status = {
+                        "data": true,
+                    };
+                }
+
+                var statusJson = JSON.stringify(status);
+                var urlFan = '@Const.GetUrl("things/fan/actions/onoff")'; //"https://192.168.43.36:5001/things/fan/actions/onoff"
+
+                $.ajax({
+                    type: "POST",
+                    url: urlFan,
+                    headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json",
+                    "authorization": `Bearer @ViewData["tokenLogin"]`
+                    },
+                    data: statusJson,
+                    success: function (data) {
+                        console.log(data);
+                    }
+                });
+
+            });
+
+            var rotateFanFunc = function () {
+                degrees += 13;
+                $('#imgFan').css({
+                    'transform': 'rotate(' + degrees + 'deg)',
+                    '-ms-transform': 'rotate(' + degrees + 'deg)',
+                    '-moz-transform': 'rotate(' + degrees + 'deg)',
+                    '-webkit-transform': 'rotate(' + degrees + 'deg)',
+                    '-o-transform': 'rotate(' + degrees + 'deg)'
+                });
+                if (degrees > 360) {
+                    degrees = 0;
+                }
+            };
+
+        });
+    </script>
+
+    <script src="~/js/SignalRFan.js"></script>
+    <script src="~/js/SignalRMQ135.js"></script>
+    <script src="~/js/SignalRDHT11.js"></script>
+
+}

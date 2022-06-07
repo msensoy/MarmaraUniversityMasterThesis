@@ -1,0 +1,86 @@
+﻿@{
+    ViewData["Title"] = "User List Page";
+    var apiBaseUrl = Const.API_URL;
+}
+
+@model List<Marmara.Common.Model.ControlUserModel>
+
+
+<h1>User List</h1>
+<div>
+    <div class="d-flex flex-row-reverse mb-2">
+        <button type="button" id="btnModalForNewUser" class="btn btn-success "><i class="fa fa-plus-square"></i> Add New User</button>
+    </div>
+    <div style="overflow-x: auto;">
+
+
+        <table class="table table-bordered  table-striped table-advance table-hover" style="background-color:rgba(255, 255, 255, 0.5);">
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th></th>
+            </tr>
+            @foreach (var user in Model)
+            {
+                <tr class="satir">
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td id="ButtonDiv">
+                        <a id="@user.Id" class="btn btn-danger btn-sm btnDel"><i class="ti-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+</div>
+
+@await Html.PartialAsync("ModalCreateNewUser")
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            $('#btnModalForNewUser').click(function () {
+                $("#divModalUser").modal("show");
+            });
+
+
+            $("#btnSubmitFromModal").click(function () {
+                $.ajax({
+                    type: "POST",
+                    url: "/User/RegisterNewUser",
+                    data: $("#formCreateNewUserModal").serialize(),
+                    success: function (data) {
+                        debugger;
+                        location.reload();
+                    }
+                });
+            });
+
+
+            $(document).on('click', '#ButtonDiv .btnDel', function () {
+                var btnId = this.id;
+                var result = confirm("Are you sure you want to delete the user ?");
+                if (result == true) {
+                    $.ajax({
+                        type: "GET",
+                        url: `/User/DeleteUser/${btnId}`,
+                        success: function (data) {
+                            if (data == 1) {
+                                $(`#${btnId}`).parent().parent().remove();
+                                alert("User successfully deleted");
+                            }
+                            location.reload();
+                        }
+                    });
+                }
+            });
+
+        })
+    </script>
+}
+
+
+

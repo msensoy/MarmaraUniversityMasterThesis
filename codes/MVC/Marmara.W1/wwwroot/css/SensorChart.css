@@ -1,0 +1,28 @@
+﻿.gpdiv {
+    border-radius: 5px;
+    box-shadow: 0px 3px 10px #00000026;
+    background-color: rgba(255, 255, 255, 0.60);
+/*    margin: 15px;*/
+}
+
+.sensorChart {
+    height: 300px;
+    width: 600px;
+}
+
+
+@media screen and (min-width: 992px) {
+    .sensorChart {
+        height: 300px;
+        width: 600px;
+    }
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 600px) {
+    .sensorChart {
+        height: 150PX;
+        width: 300px;
+    }
+}
+

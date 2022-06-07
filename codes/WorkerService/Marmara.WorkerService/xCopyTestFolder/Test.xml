@@ -1,0 +1,33 @@
+﻿<!--XML dosyasından veri okuma iptal edildi. Çünkü aynı anda tüm cihazlar bu dosyayı açıp yazamazlar. O yüzden her sensör için ayrı ayrı text yazılacak-->
+
+<Project>
+	<Sensors>
+		<Project ID="LED" Name="LED" Value="On" />
+		<Project ID="BUZZER" Name="BUZZER" Value="On" />
+		<Project ID="SERVO" Name="SERVO" Value="On" />
+		<Project ID="FAN" Name="FAN" Value="On" />
+		<Project ID="RELAY" Name="FAN" Value="On" />
+	</Sensors>
+	<Actuators>
+		<Actuator ID="DHT11" Name="DHT11" Value="25" />
+		<Actuator ID="LPG" Name="LPG" Value="" />
+		<Actuator ID="CO" Name="CO" Value="" />
+		<Actuator ID="SMOKE" Name="SMOKE" Value="" />
+		<Actuator ID="LDR" Name="LDR" Value="" />
+		<Actuator ID="PIR" Name="PIR" Value="" />
+		<Actuator ID="FLAME" Name="FLAME" Value="" />
+	</Actuators>
+</Project>
+
+<!--
+C# Kodu
+
+var doc = XElement.Load("Test.xml");
+var target = doc.Elements("Project")
+.Where(e => e.Attribute("ID").Value == "2")
+.Single();
+
+target.Attribute("Name").Value = "Project2_Update";
+doc.Save("Test.xml");
+
+-->

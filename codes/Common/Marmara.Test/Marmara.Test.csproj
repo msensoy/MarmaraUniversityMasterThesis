@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Marmara.Common\Marmara.Common.csproj" />
+    <ProjectReference Include="..\Marmara.Data\Marmara.Data.csproj" />
+    <ProjectReference Include="..\Marmara.WorkerService\Marmara.WorkerService.csproj" />
+  </ItemGroup>
+
+</Project>
